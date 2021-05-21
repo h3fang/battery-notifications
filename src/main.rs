@@ -2,20 +2,20 @@ use battery::units::ratio::percent;
 use notify_rust::Notification;
 use std::{thread, time};
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Clone)]
 enum Discharging {
     Normal,
     Low,
     Critical,
 }
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Clone)]
 enum Charging {
     Normal,
     High,
 }
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Clone)]
 enum State {
     Others,
     Discharging(Discharging),
@@ -30,12 +30,9 @@ const UPDATE_INTERVAL: u64 = 30;
 fn main() -> Result<(), battery::Error> {
     let manager = battery::Manager::new()?;
 
-    let mut batteries: Vec<battery::Battery> = manager.batteries()?.into_iter().map(|x| x.unwrap()).collect();
+    let mut batteries: Vec<battery::Battery> = manager.batteries()?.filter_map(|x| x.ok()).collect();
     let n = batteries.len();
-    let mut states = Vec::with_capacity(n);
-    for _ in 0..n {
-        states.push(State::Others);
-    }
+    let mut states = vec![State::Others; n];
 
     let mut noti = Notification::new();
     let noti = noti

@@ -47,11 +47,8 @@ fn main() -> Result<(), battery::Error> {
             let p = bat.state_of_charge().get::<percent>();
             match bat.state() {
                 battery::State::Discharging => {
-                    match state {
-                        State::Charging(_) | State::Others => {
-                            noti.body("Battery is discharging.").show().unwrap();
-                        },
-                        _ => {}
+                    if let State::Charging(_) | State::Others = state {
+                        noti.body("Battery is discharging.").show().unwrap();
                     }
 
                     if p <= CRITICAL_THRESHOLD {
@@ -69,11 +66,8 @@ fn main() -> Result<(), battery::Error> {
                     }
                 }
                 battery::State::Charging => {
-                    match state {
-                        State::Discharging(_) | State::Others => {
-                            noti.body("Battery is charging.").show().unwrap();
-                        },
-                        _ => {}
+                    if let State::Discharging(_) | State::Others = state {
+                        noti.body("Battery is charging.").show().unwrap();
                     }
 
                     if p >= HIGH_THRESHOLD {

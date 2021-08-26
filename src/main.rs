@@ -1,6 +1,7 @@
 use battery::units::ratio::percent;
 use notify_rust::Notification;
-use std::{thread, time};
+use std::thread::sleep;
+use std::time::Duration;
 
 #[derive(PartialEq, Clone)]
 enum Discharging {
@@ -25,12 +26,13 @@ enum State {
 const HIGH_THRESHOLD: f32 = 80.0;
 const LOW_THRESHOLD: f32 = 30.0;
 const CRITICAL_THRESHOLD: f32 = 10.0;
-const UPDATE_INTERVAL: u64 = 30;
+const UPDATE_INTERVAL: Duration = Duration::from_secs(30);
 
 fn main() -> Result<(), battery::Error> {
     let manager = battery::Manager::new()?;
 
-    let mut batteries: Vec<battery::Battery> = manager.batteries()?.filter_map(|x| x.ok()).collect();
+    let mut batteries: Vec<battery::Battery> =
+        manager.batteries()?.filter_map(|x| x.ok()).collect();
     let n = batteries.len();
     let mut states = vec![State::Others; n];
 
@@ -85,6 +87,6 @@ fn main() -> Result<(), battery::Error> {
             }
         }
 
-        thread::sleep(time::Duration::from_secs(UPDATE_INTERVAL));
+        sleep(UPDATE_INTERVAL);
     }
 }

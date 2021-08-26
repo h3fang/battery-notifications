@@ -1,13 +1,13 @@
 [package]
 name = "battery-notifications"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Fang He <hf.enigma@gmail.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-battery = "0.7.8"
+battery = "0.7"
 notify-rust = "4"
 
 [profile.release]

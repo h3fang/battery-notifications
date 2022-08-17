@@ -1,7 +1,8 @@
-use battery::units::ratio::percent;
-use notify_rust::Notification;
 use std::thread::sleep;
 use std::time::Duration;
+
+use notify_rust::Notification;
+use starship_battery as battery;
 
 #[derive(PartialEq, Clone)]
 enum Discharging {
@@ -46,7 +47,9 @@ fn main() -> Result<(), battery::Error> {
             let bat = batteries.get_mut(i).unwrap();
             let state = states.get_mut(i).unwrap();
             manager.refresh(bat)?;
-            let p = bat.state_of_charge().get::<percent>();
+            let p = bat
+                .state_of_charge()
+                .get::<battery::units::ratio::percent>();
             match bat.state() {
                 battery::State::Discharging => {
                     if let State::Charging(_) | State::Others = state {

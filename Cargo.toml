@@ -7,8 +7,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-starship-battery = "0.7"
-notify-rust = "4"
+udev = { version = "0.7", features = ["mio"] }
+mio = "0.8"
 
 [profile.release]
 lto = true

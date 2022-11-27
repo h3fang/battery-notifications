@@ -1,6 +1,6 @@
 # battery-notifications
 
-Laptop battery monitor application to send notifications according to battery status.
+Monitor battery status and send notifications.
 
 ## Notifications
 - Discharging and battery level <= 10%,
@@ -8,8 +8,8 @@ Laptop battery monitor application to send notifications according to battery st
 - Charging and battery level >= 80%,
 - Switching to charging or discharging state.
 
-## Note
-Works for laptop with multiple batteries.
+## Dependencies
+- libnotify
 
 ## LICENSE
 MIT

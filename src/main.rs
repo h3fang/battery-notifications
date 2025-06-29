@@ -66,28 +66,28 @@ fn process_event(event: udev::Event, states: &mut HashMap<String, State>) {
                     *state = State::DischargingCritical;
                     notify(
                         "critical",
-                        &format!("Battery {} is critically low.", bat_name),
+                        &format!("Battery {bat_name} is critically low."),
                     );
                 }
             } else if p <= LOW_THRESHOLD {
                 if *state != State::DischargingLow {
                     *state = State::DischargingLow;
-                    notify("critical", &format!("Battery {} is too low.", bat_name));
+                    notify("critical", &format!("Battery {bat_name} is too low."));
                 }
             } else if *state != State::Discharging {
                 *state = State::Discharging;
-                notify("normal", &format!("Battery {} is discharging.", bat_name));
+                notify("normal", &format!("Battery {bat_name} is discharging."));
             }
         }
         "Charging" => {
             if p >= HIGH_THRESHOLD {
                 if *state != State::ChargingHigh {
                     *state = State::ChargingHigh;
-                    notify("critical", &format!("Battery {} is too full.", bat_name));
+                    notify("critical", &format!("Battery {bat_name} is too full."));
                 }
             } else if *state != State::Charging {
                 *state = State::Charging;
-                notify("normal", &format!("Battery {} is charging.", bat_name));
+                notify("normal", &format!("Battery {bat_name} is charging."));
             }
         }
         _ => {
